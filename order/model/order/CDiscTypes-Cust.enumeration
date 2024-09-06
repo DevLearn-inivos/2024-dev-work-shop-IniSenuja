@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ENUMERATION xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="urn:ifsworld-com:schemas:enumeration_enumeration">
+   <CODE_GENERATION_PROPERTIES>
+      <CODE_GENERATION_PROPERTIES>
+      </CODE_GENERATION_PROPERTIES>
+   </CODE_GENERATION_PROPERTIES>
+   <NAME>CDiscTypes</NAME>
+   <COMPONENT>ORDER</COMPONENT>
+   <LAYER>Cust</LAYER>
+   <VALUES>
+      <VALUE>
+         <CODE_GENERATION_PROPERTIES>
+            <CODE_GENERATION_PROPERTIES>
+               <CLIENT_VALUE>Free Issue for Buy Quantity</CLIENT_VALUE>
+            </CODE_GENERATION_PROPERTIES>
+         </CODE_GENERATION_PROPERTIES>
+         <NAME>FreeIssue</NAME>
+      </VALUE>
+      <VALUE>
+         <CODE_GENERATION_PROPERTIES>
+            <CODE_GENERATION_PROPERTIES>
+               <CLIENT_VALUE>Value discount for Delivered Customer Orders</CLIENT_VALUE>
+            </CODE_GENERATION_PROPERTIES>
+         </CODE_GENERATION_PROPERTIES>
+         <NAME>ValDis</NAME>
+      </VALUE>
+      <VALUE>
+         <CODE_GENERATION_PROPERTIES>
+            <CODE_GENERATION_PROPERTIES>
+               <CLIENT_VALUE>Short Expiry Discount</CLIENT_VALUE>
+            </CODE_GENERATION_PROPERTIES>
+         </CODE_GENERATION_PROPERTIES>
+         <NAME>ShrtExp</NAME>
+      </VALUE>
+      <VALUE>
+         <CODE_GENERATION_PROPERTIES>
+            <CODE_GENERATION_PROPERTIES>
+               <CLIENT_VALUE>Free Issue for Buy Quantity</CLIENT_VALUE>
+            </CODE_GENERATION_PROPERTIES>
+         </CODE_GENERATION_PROPERTIES>
+         <NAME>PkgFreeIss</NAME>
+      </VALUE>
+   </VALUES>
+</ENUMERATION>

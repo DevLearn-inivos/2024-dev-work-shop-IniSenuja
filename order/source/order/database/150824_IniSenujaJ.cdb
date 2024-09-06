@@ -1,0 +1,118 @@
+-----------------------------------------------------------------------------
+--  Module : ORDER
+--
+--  File   : newscript.cdb
+--
+--  IFS Developer Studio Template Version 2.6
+--
+--  Date     Sign    History
+--  ------   ------  --------------------------------------------------
+--  240815   SenujaJayasekara
+--  ------   ------  --------------------------------------------------
+-----------------------------------------------------------------------------
+
+SET SERVEROUTPUT ON
+
+
+-----------------------------------------------------------------------------
+-------------------- SEQUENCE DEFINITIONS -----------------------------------
+-----------------------------------------------------------------------------
+
+-- [IFS COMPLETE BLOCK DECLAREEND]
+DECLARE
+   sequence_name_ VARCHAR2(30) := 'C_NEW_ENTITY_LINE_SEQ';
+BEGIN
+   Database_SYS.Create_Sequence(sequence_name_, 'MINVALUE 1 START WITH 1 INCREMENT BY 1 NOCACHE ORDER', TRUE);
+END;
+-- [END IFS COMPLETE BLOCK]
+/
+
+-----------------------------------------------------------------------------
+-------------------- TABLE DEFINITIONS --------------------------------------
+-----------------------------------------------------------------------------
+
+-- [IFS COMPLETE BLOCK DECLAREEND]
+DECLARE
+   table_name_ VARCHAR2(30) := 'C_DISCOUNT_TAB';
+   columns_    Database_SYS.ColumnTabType;
+   column_     Database_SYS.ColRec;
+BEGIN
+   Database_SYS.Reset_Column_Table(columns_);
+   Database_SYS.Set_Table_Column(columns_, 'DISCOUNT_ID', 'NUMBER', 'N');
+   Database_SYS.Set_Table_Column(columns_, 'DISC_TYPE', 'VARCHAR2(20)', 'N');
+   Database_SYS.Set_Table_Column(columns_, 'CLOSE_DIS', 'NUMBER', 'Y');
+   Database_SYS.Set_Table_Column(columns_, 'IGN_CUS_DIS', 'NUMBER', 'Y');
+   Database_SYS.Set_Table_Column(columns_, 'CONTRACT', 'VARCHAR2(10)', 'N');
+   Database_SYS.Set_Table_Column(columns_, 'SALES_PART', 'VARCHAR2(20)', 'Y');
+   Database_SYS.Set_Table_Column(columns_, 'LOT_NO', 'VARCHAR2(20)', 'Y');
+   Database_SYS.Set_Table_Column(columns_, 'SALES_GRP', 'VARCHAR2(10)', 'Y');
+   Database_SYS.Set_Table_Column(columns_, 'FROM_DATE', 'DATE', 'N');
+   Database_SYS.Set_Table_Column(columns_, 'TO_DATE', 'DATE', 'N');
+   Database_SYS.Set_Table_Column(columns_, 'STATE', 'VARCHAR2(20)', 'N');
+   Database_SYS.Set_Table_Column(columns_, 'CUS_ID', 'VARCHAR2(10)', 'Y');
+   Database_SYS.Set_Table_Column(columns_, 'CUS_GRP', 'VARCHAR2(10)', 'Y');
+   Database_SYS.Set_Table_Column(columns_, 'DIS_PER', 'NUMBER', 'Y');
+   Database_SYS.Set_Table_Column(columns_, 'BUY_QTY', 'NUMBER', 'Y');
+   Database_SYS.Set_Table_Column(columns_, 'TOT_BUY_QTY', 'NUMBER', 'Y');
+   Database_SYS.Set_Table_Column(columns_, 'FREE_SALES', 'VARCHAR2(10)', 'Y');
+   Database_SYS.Set_Table_Column(columns_, 'FREE_ISS_QTY', 'NUMBER', 'Y');
+   Database_SYS.Set_Table_Column(columns_, 'EXP_DATE', 'DATE', 'Y');
+   Database_SYS.Set_Table_Column(columns_, 'SHT_EXP_AVA', 'NUMBER', 'Y');
+   Database_SYS.Set_Table_Column(columns_, 'TAR_AMT', 'NUMBER', 'Y');
+   Database_SYS.Set_Table_Column(columns_, 'ACH_AMT', 'NUMBER', 'Y');
+   Database_SYS.Set_Table_Column(columns_, 'ROWVERSION', 'DATE', 'N');
+   Database_SYS.Set_Table_Column(columns_, 'ROWKEY', 'VARCHAR2(50)', 'N', 'sys_guid()');
+   Database_SYS.Create_Or_Replace_Table(table_name_, columns_, '&IFSAPP_DATA', NULL, TRUE);
+END;
+-- [END IFS COMPLETE BLOCK]
+/
+
+
+-----------------------------------------------------------------------------
+-------------------- INDEX DEFINITIONS --------------------------------------
+-----------------------------------------------------------------------------
+
+-- [IFS COMPLETE BLOCK DECLAREEND]
+DECLARE
+   index_name_ VARCHAR2(30) := 'C_DISCOUNT_PK';
+   table_name_ VARCHAR2(30) := 'C_DISCOUNT_TAB';
+   columns_    Database_SYS.ColumnTabType;
+BEGIN
+   Database_SYS.Reset_Column_Table(columns_);
+   Database_SYS.Set_Table_Column(columns_, 'DISCOUNT_ID');
+   Database_SYS.Create_Constraint(table_name_, index_name_, columns_, 'P', '&IFSAPP_INDEX', NULL, TRUE, TRUE);
+END;
+-- [END IFS COMPLETE BLOCK]
+/
+
+
+-- [IFS COMPLETE BLOCK DECLAREEND]
+DECLARE
+   index_name_ VARCHAR2(30) := 'C_DISCOUNT_RK';
+   table_name_ VARCHAR2(30) := 'C_DISCOUNT_TAB';
+   columns_    Database_SYS.ColumnTabType;
+BEGIN
+   Database_SYS.Reset_Column_Table(columns_);
+   Database_SYS.Set_Table_Column(columns_, 'ROWKEY');
+   Database_SYS.Create_Constraint(table_name_, index_name_, columns_, 'U', '&IFSAPP_INDEX', NULL, TRUE, TRUE);
+END;
+-- [END IFS COMPLETE BLOCK]
+/
+
+
+-- [IFS COMPLETE BLOCK DECLAREEND]
+DECLARE
+   index_name_ VARCHAR2(30) := 'C_NEW_ENTITY_IX1';
+   table_name_ VARCHAR2(30) := 'C_DISCOUNT_TAB';
+   columns_    Database_SYS.ColumnTabType;
+BEGIN
+   Database_SYS.Reset_Column_Table(columns_);
+   Database_SYS.Set_Table_Column(columns_, 'DISCOUNT_ID');
+   Database_SYS.Create_Index(table_name_, index_name_, columns_, 'N', '&IFSAPP_INDEX', NULL, TRUE, TRUE);
+END;
+-- [END IFS COMPLETE BLOCK]
+/
+
+
+
+SET SERVEROUTPUT OFF

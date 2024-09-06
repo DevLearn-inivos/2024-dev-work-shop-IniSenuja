@@ -1,0 +1,159 @@
+client CActiveSalesPromoClient;
+component ORDER;
+layer Cust;
+projection CPromotionHandling;
+
+description "Put some useful description here ...";
+
+--------------------------------- FRAGMENTS ---------------------------------
+
+----------------------------- NAVIGATOR ENTRIES -----------------------------
+navigator {
+   entry SalesCampaignNavEntry parent OrderNavigator.PricingCampaign at index 1000 {
+      label = "Active Sales Promotion";
+      page ActiveSalesPromotionPage;
+   }
+}
+-------------------------------- MAIN PAGES ---------------------------------
+page ActiveSalesPromotionPage using CDiscounts {
+   label = "Active Sales Promotion";
+   list CDiscountList;
+}
+--------------------------------- COMMANDS ----------------------------------
+
+
+--------------------------------- SELECTORS ---------------------------------
+
+
+---------------------------------- GROUPS -----------------------------------
+
+
+----------------------------------- LISTS -----------------------------------
+list CDiscountList for CDiscount {
+   field DiscountId {
+      size = Small;
+   }
+   field DiscType {
+      validate command {
+         execute {
+            set ContractRef = null;
+            set CatalogRef = null;
+            set LotNoRef = null;
+            set CatalogGrpRef = null;
+            set DisPer = null;
+            set BuyQty = null;
+            set FreeSales = null;
+            set FreeIssQty = null;
+            set ShtExpAva = null;
+            set TarAmt = null;
+            set AchAmt = null;
+         }
+      }
+   }
+
+   field CloseDis {
+      required = [true];
+   }
+   field IgnCusDis {
+      required = [true];
+   }
+   field ContractRef {
+      label = "Contract";
+   }
+   field CatalogRef {
+      label = "Base Sales Parts";
+      editable = [SalesGrp = null];
+   }
+
+   field LotNoRef {
+      required = [CatalogRef != null];
+      editable = [CatalogRef != null];
+   }
+
+   field CatalogGrpRef {
+      label = "Sales Group";
+      editable = [SalesPart = null];
+   }
+
+   field FromDate;
+
+   field ToDate {
+      validate command {
+         execute {
+            if [FromDate > ToDate] {
+               error("The To Date can't be less than the From Date.");
+               set ToDate = null;
+            }
+         }
+      }
+   }
+
+   field State;
+   field CustomerRef {
+      editable = [CusGrp = null];
+   }
+   field CustomerGrpRef {
+      editable = [CusId = null];
+   }
+
+   field DisPer {
+      required = [DiscType = "ValDis" or DiscType = "ShrtExp"];
+      editable = [DiscType = "ValDis" or DiscType = "ShrtExp"];
+
+   }
+
+   field BuyQty {
+      required = [DiscType = "FreeIssue" or DiscType = "PkgFreeIss"];
+      editable = [DiscType = "FreeIssue" or DiscType = "PkgFreeIss"];
+
+   }
+   field TotBuyQty {
+      editable = [false];
+   }
+   field FreeSales {
+      required = [DiscType = "FreeIssue" or DiscType = "PkgFreeIss"];
+      editable = [DiscType = "FreeIssue" or DiscType = "PkgFreeIss"];
+
+   }
+   field FreeIssQty {
+      required = [DiscType = "FreeIssue" or DiscType = "PkgFreeIss"];
+      editable = [DiscType = "FreeIssue" or DiscType = "PkgFreeIss"];
+
+   }
+   field ExpDate;
+   field ShtExpAva {
+      required = [DiscType = "ShrtExp"];
+      editable = [DiscType = "ShrtExp"];
+   }
+   field TarAmt {
+      required = [DiscType = "ValDis"];
+      editable = [DiscType = "ValDis"];
+
+   }
+   field AchAmt;
+}
+---------------------------------- DIALOGS ----------------------------------
+
+
+-------------------------------- SINGLETONS ---------------------------------
+
+
+---------------------------------- CHARTS -----------------------------------
+
+
+--------------------------------- CALENDERS ---------------------------------
+
+
+---------------------------------- SHEETS -----------------------------------
+
+
+----------------------------- STATE INDICATORS ------------------------------
+
+
+----------------------------------- TREES -----------------------------------
+
+
+---------------------------------- PLUGINS ----------------------------------
+
+
+------------------------------- IMAGE VIEWERS -------------------------------

@@ -1,0 +1,20 @@
+-----------------------------------------------------------------------------
+--
+--  Logical unit: CDiscount
+--  Component:    ORDER
+--
+--  IFS Developer Studio Template Version 3.0
+--
+--  Date    Sign    History
+--  ------  ------  ---------------------------------------------------------
+-----------------------------------------------------------------------------
+
+
+layer Cust;
+
+-------------------- TABLE DEFINITIONS --------------------------------------
+
+
+-------------------- OTHER DEFINITIONS --------------------------------------
+SEQUENCE C_NEW_ENTITY_LINE_SEQ IS MINVALUE 1 START WITH 1 INCREMENT BY 1 NOCACHE ORDER;
+INDEX C_NEW_ENTITY_IX1 IS C_DISCOUNT_TAB (discount_id);

@@ -1,0 +1,82 @@
+projection CPromotionHandling;
+component ORDER;
+layer Cust;
+description "Put some useful description here ...";
+category Users;
+
+--------------------------------- FRAGMENTS ---------------------------------
+
+----------------------------- MAIN ENTRY POINTS -----------------------------
+entityset CDiscounts for CDiscount;
+
+
+------------------------------ ENTITY DETAILS -------------------------------
+@Override
+entity CDiscount {
+   reference ContractRef(Contract) to CompanySite(Contract) {
+      label = "Site";
+   }
+   reference CatalogRef(Contract, SalesPart) to SalesPartLov(Contract, CatalogNo) {
+      label = "Base Sales Part";
+   }
+
+   reference CatalogGrpRef(SalesGrp) to SalesGroup(CatalogGroup) {
+      label = "Sales Group";
+   }
+   reference LotNoRef(Contract, SalesPart, LotNo) to LotNoLov(Contract, PartNo, LotBatchNo) {
+      label = "Lot No";
+   }
+
+   reference CustomerRef(CusId) to CustomerInfo(CustomerId) {
+      label = "Customer";
+   }
+
+   reference CustomerGrpRef(CusGrp) to CustomerGrpLov(GroupId) {
+      label = "Customer Group";
+   }
+
+}
+
+------------------------------- ENUMERATIONS --------------------------------
+
+
+---------------------------------- QUERIES ----------------------------------
+query SalesPartLov {
+   from = "Sales_Part_LOV";
+   keys = Contract, CatalogNo;
+   attribute CatalogNo Text;
+   attribute Contract Text;
+}
+
+summary LotNoLov {
+   from = "INVENTORY_TRANSACTION_HIST2";
+   keys = Contract, PartNo, LotBatchNo;
+   attribute Contract Text;
+   attribute PartNo Text;
+   attribute LotBatchNo Text;
+}
+
+summary CustomerGrpLov {
+   from = "INVOICE_PARTY_TYPE_GROUP";
+   keys = GroupId, Description;
+   where = "PARTY_TYPE = 'Customer' ";
+   attribute GroupId Text;
+   attribute Description Text;
+}
+
+
+---------------------------------- ACTIONS ----------------------------------
+
+
+--------------------------------- FUNCTIONS ---------------------------------
+
+-------------------------------- STRUCTURES ---------------------------------
+
+
+--------------------------------- VIRTUALS ----------------------------------
+
+
+--------------------------------- SUMMARIES ---------------------------------
+
+
+-------------------------------- SINGLETONS ---------------------------------
