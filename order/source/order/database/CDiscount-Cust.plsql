@@ -25,7 +25,50 @@ PROCEDURE Insert___ (
    newrec_     IN OUT c_discount_tab%ROWTYPE,
    attr_       IN OUT VARCHAR2 )
 IS
+   CURSOR get_records IS
+    SELECT *
+    FROM c_discount;
+   
 BEGIN
+   
+   FOR record_ IN get_records LOOP
+--      Error_Sys.Record_General('ERROR',newrec_.sales_grp||newrec_.sales_grp);
+      IF (newrec_.disc_type = record_.disc_type_db 
+         
+--         AND (newrec_.sales_part = record_.sales_part) 
+--         AND newrec_.sales_grp = record_.sales_grp 
+--         AND newrec_.cus_id = record_.cus_id
+--         AND newrec_.cus_grp = record_.cus_grp 
+         )
+      THEN    
+         IF newrec_.sales_part IS NOT NULL THEN 
+            IF newrec_.sales_part = record_.sales_part THEN
+               IF newrec_.cus_id IS NOT NULL THEN
+                  IF newrec_.cus_id = record_.cus_id THEN
+                     Error_Sys.Record_General('ERROR','The record exists');
+                  END IF;
+               ELSE    
+                  IF newrec_.cus_grp = record_.cus_grp THEN
+                     Error_Sys.Record_General('ERROR','The record exists');
+                  END IF;   
+               END IF;
+            END IF;
+         ELSE
+            IF newrec_.sales_grp = record_.sales_grp THEN
+               IF newrec_.cus_id IS NOT NULL THEN
+                  IF newrec_.cus_id = record_.cus_id THEN
+                     Error_Sys.Record_General('ERROR','The record exists');
+                  END IF;
+               ELSE    
+                  IF newrec_.cus_grp = record_.cus_grp THEN
+                     Error_Sys.Record_General('ERROR','The record exists');
+                  END IF;   
+               END IF;
+            END IF;   
+         END IF;     
+      END IF;
+   END LOOP;   
+   
    IF newrec_.buy_qty IS NOT NULL THEN
       IF newrec_.buy_qty <= 0 THEN
          Error_Sys.Record_General('ERROR','Buy / Free Issue Quantity cant be zero or negative.');

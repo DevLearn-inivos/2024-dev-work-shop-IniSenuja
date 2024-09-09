@@ -63,6 +63,8 @@ list CDiscountList for CDiscount {
    field CatalogRef {
       label = "Base Sales Parts";
       editable = [SalesGrp = null];
+      required = [SalesGrp = null];
+
    }
 
    field LotNoRef {
@@ -73,6 +75,8 @@ list CDiscountList for CDiscount {
    field CatalogGrpRef {
       label = "Sales Group";
       editable = [SalesPart = null];
+      required = [SalesPart = null];
+
    }
 
    field FromDate;
@@ -91,9 +95,12 @@ list CDiscountList for CDiscount {
    field State;
    field CustomerRef {
       editable = [CusGrp = null];
+      required = [CusGrp = null];
+
    }
    field CustomerGrpRef {
       editable = [CusId = null];
+      required = [CusId = null];
    }
 
    field DisPer {
