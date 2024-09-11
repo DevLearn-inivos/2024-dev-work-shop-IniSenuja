@@ -30,6 +30,18 @@ page ActiveSalesPromotionPage using CDiscounts {
 
 ----------------------------------- LISTS -----------------------------------
 list CDiscountList for CDiscount {
+   crudactions {
+      new {
+         enabled = [true];
+      }
+      edit {
+         enabled = [true];
+      }
+      delete {
+         enabled = [true];
+      }
+   }
+
    field DiscountId {
       size = Small;
    }
@@ -117,7 +129,7 @@ list CDiscountList for CDiscount {
    field TotBuyQty {
       editable = [false];
    }
-   field FreeSales {
+   field InventoryPartRef {
       required = [DiscType = "FreeIssue" or DiscType = "PkgFreeIss"];
       editable = [DiscType = "FreeIssue" or DiscType = "PkgFreeIss"];
 
