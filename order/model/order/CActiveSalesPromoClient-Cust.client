@@ -80,7 +80,7 @@ list CDiscountList for CDiscount {
    }
 
    field LotNoRef {
-      required = [CatalogRef != null];
+      --required = [CatalogRef != null];
       editable = [CatalogRef != null];
    }
 
