@@ -63,10 +63,10 @@ BEGIN
    Database_SYS.Set_Table_Column(columns_, 'ROWVERSION', 'DATE', 'N');
    Database_SYS.Set_Table_Column(columns_, 'ROWKEY', 'VARCHAR2(50)', 'N', 'sys_guid()');
    Database_SYS.Create_Or_Replace_Table(table_name_, columns_, '&IFSAPP_DATA', NULL, TRUE);
+--   Database_SYS.Alter_table(table_name_,columns_,TRUE);
 END;
 -- [END IFS COMPLETE BLOCK]
 /
-
 
 
 -----------------------------------------------------------------------------

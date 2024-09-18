@@ -147,9 +147,11 @@ list CDiscountList for CDiscount {
    field TarAmt {
       required = [DiscType = "ValDis"];
       editable = [DiscType = "ValDis"];
-
    }
-   field AchAmt;
+
+   field AchAmt {
+      editable = [false];
+   }
 }
 ---------------------------------- DIALOGS ----------------------------------
 

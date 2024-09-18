@@ -101,6 +101,68 @@ BEGIN
                                    1,
                                    0);
 END Apply_Discount___;
+
+PROCEDURE Val_Disc_Apply IS
+   
+   result_ C_PROMOTION_HANDLING_SVC.ENTITY_DEC;
+   
+   CURSOR get_val_disc_rec IS
+      SELECT *
+      FROM c_discount t ;
+      
+   CURSOR get_invoice_amt(contract_ VARCHAR2,customer_ VARCHAR2,catalog_no_ VARCHAR2) IS   
+      SELECT SUM(t.net_curr_amount)
+      FROM customer_order_inv_join t
+      WHERE t.contract = contract_
+      AND t.catalog_no = catalog_no_
+      AND t.identity = customer_
+      AND t.head_objstate_db != 'Cancelled';
+   get_invoice_amt_ NUMBER;
+   
+BEGIN
+   FOR rec_ IN get_val_disc_rec LOOP
+      IF rec_.disc_type_db = 'VAL_DIS' AND rec_.ach_amt IS NULL THEN
+         OPEN get_invoice_amt(rec_.contract,rec_.cus_id,rec_.sales_part);
+         FETCH get_invoice_amt INTO get_invoice_amt_;
+         CLOSE get_invoice_amt;
+         
+         IF get_invoice_amt_ >= rec_.tar_amt THEN   
+         result_ :=  C_Promotion_Handling_SVC.CRUD_Update('*',
+                                                          rec_.discount_id,
+                                                          'ACH_AMT'||chr(31)||get_invoice_amt_||chr(30),
+                                                          'DO',
+                                                          c_discount## => '');
+         
+         END IF;                                                 
+      END IF;   
+   END LOOP;   
+END Val_Disc_Apply;
+
+PROCEDURE New_Instant_Invoice IS
+   attr_          VARCHAR2(32000);
+   info_          VARCHAR2(32000);
+   objid_         VARCHAR2(4000);
+   objversion_    VARCHAR2(4000);  
+BEGIN
+   Client_SYS.Add_To_Attr('COMPANY', 'RANPA', attr_);   
+   Client_SYS.Add_To_Attr('IDENTITY', 'RANPA DEALER-KANDY', attr_);
+   Client_SYS.Add_To_Attr('CREATOR', 'INSTANT_INVOICE_API', attr_);
+   Client_SYS.Add_To_Attr('INVOICE_DATE', sysdate, attr_);
+   Client_SYS.Add_To_Attr('DELIVERY_DATE', sysdate, attr_);
+   Client_SYS.Add_To_Attr('INVOICE_TYPE', 'INSTINV', attr_);
+   Client_SYS.Add_To_Attr('CURRENCY', Company_API.GET_CURRENCY_CODE('RANPA'), attr_);
+   Client_SYS.Add_To_Attr('CURR_RATE', Currency_Code_API.Get_Conv_Factor('RANPA',Company_API.GET_CURRENCY_CODE('RANPA')), attr_);
+   Client_SYS.Add_To_Attr('TAX_CURR_RATE',1, attr_);
+   Client_SYS.Add_To_Attr('INVOICE_ADDRESS_ID','CADD', attr_);
+   Client_SYS.Add_To_Attr('DELIVERY_ADDRESS_ID','CADD', attr_);
+   Client_SYS.Add_To_Attr('USE_PROJ_ADDRESS_FOR_TAX_DB','FALSE', attr_);
+   Client_SYS.Add_To_Attr('USE_DELIVERY_INV_ADDRESS_DB','FALSE', attr_);
+   Client_SYS.Add_To_Attr('PAYER_IDENTITY','RANPA DEALER-KANDY', attr_);
+   Client_SYS.Add_To_Attr('SUPPLY_COUNTRY_DB','LK', attr_);
+   Client_SYS.Add_To_Attr('PAY_TERM_ID',0, attr_);
+   Client_SYS.Add_To_Attr('TAX_LIABILITY','TAX', attr_);
+   Instant_Invoice_API.New__(info_, objid_, objversion_, attr_, 'DO');
+END  New_Instant_Invoice; 
 -------------------- LU SPECIFIC PRIVATE METHODS ----------------------------
 
 
