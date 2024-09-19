@@ -40,6 +40,7 @@ BEGIN
    Database_SYS.Reset_Column_Table(columns_);
    Database_SYS.Set_Table_Column(columns_, 'DISCOUNT_ID', 'NUMBER', 'N');
    Database_SYS.Set_Table_Column(columns_, 'DISC_TYPE', 'VARCHAR2(20)', 'N');
+   Database_SYS.Set_Table_Column(columns_, 'DISC_DESC', 'VARCHAR2(50)', 'Y');
    Database_SYS.Set_Table_Column(columns_, 'CLOSE_DIS', 'NUMBER', 'Y');
    Database_SYS.Set_Table_Column(columns_, 'IGN_CUS_DIS', 'NUMBER', 'Y');
    Database_SYS.Set_Table_Column(columns_, 'CONTRACT', 'VARCHAR2(10)', 'N');

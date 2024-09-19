@@ -63,6 +63,10 @@ list CDiscountList for CDiscount {
       }
    }
 
+   field DiscDesc {
+      editable = [false];
+   }
+
    field CloseDis {
       required = [true];
    }

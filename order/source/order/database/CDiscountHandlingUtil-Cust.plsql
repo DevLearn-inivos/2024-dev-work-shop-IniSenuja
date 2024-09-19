@@ -132,33 +132,62 @@ BEGIN
                                                           'ACH_AMT'||chr(31)||get_invoice_amt_||chr(30),
                                                           'DO',
                                                           c_discount## => '');
-         
+         New_Instant_Invoice(rec_.cus_id);
          END IF;                                                 
       END IF;   
    END LOOP;   
 END Val_Disc_Apply;
 
-PROCEDURE New_Instant_Invoice IS
+PROCEDURE New_Instant_Invoice(customer_ VARCHAR2) IS
    attr_          VARCHAR2(32000);
    info_          VARCHAR2(32000);
    objid_         VARCHAR2(4000);
    objversion_    VARCHAR2(4000);  
+   
+   --customer_ VARCHAR2(50);
+   CURSOR get_addr(customer_ VARCHAR2) IS
+      SELECT address_id 
+      FROM customer_info_address t
+      WHERE t.customer_id = customer_
+      FETCH FIRST 1 ROWS ONLY;
+   get_addr_ VARCHAR2(50);
+
+   CURSOR get_company(customer_ VARCHAR2) IS
+      SELECT B.company
+      FROM CUSTOMER_INFO A
+      JOIN IDENTITY_INVOICE_INFO B
+      ON A.party_type_db = B.party_type_db
+      AND A.customer_id = B.identity
+      WHERE A.customer_id = customer_
+      FETCH FIRST 1 ROWS ONLY;
+   get_company_ VARCHAR2(50);
+   
 BEGIN
-   Client_SYS.Add_To_Attr('COMPANY', 'RANPA', attr_);   
-   Client_SYS.Add_To_Attr('IDENTITY', 'RANPA DEALER-KANDY', attr_);
+   --customer_ := 'RANPA DEALER-KANDY';
+   
+   OPEN get_addr(customer_);
+   FETCH get_addr INTO get_addr_;
+   CLOSE get_addr;
+   
+   OPEN get_company(customer_);
+   FETCH get_company INTO get_company_;
+   CLOSE get_company;
+
    Client_SYS.Add_To_Attr('CREATOR', 'INSTANT_INVOICE_API', attr_);
-   Client_SYS.Add_To_Attr('INVOICE_DATE', sysdate, attr_);
-   Client_SYS.Add_To_Attr('DELIVERY_DATE', sysdate, attr_);
    Client_SYS.Add_To_Attr('INVOICE_TYPE', 'INSTINV', attr_);
-   Client_SYS.Add_To_Attr('CURRENCY', Company_API.GET_CURRENCY_CODE('RANPA'), attr_);
-   Client_SYS.Add_To_Attr('CURR_RATE', Currency_Code_API.Get_Conv_Factor('RANPA',Company_API.GET_CURRENCY_CODE('RANPA')), attr_);
+   Client_SYS.Add_To_Attr('COMPANY', get_company_, attr_);   
+   Client_SYS.Add_To_Attr('IDENTITY', customer_, attr_);
+   Client_SYS.Add_To_Attr('PAYER_IDENTITY',customer_, attr_);
+   Client_SYS.Add_To_Attr('INVOICE_DATE', sysdate, attr_);
+   Client_SYS.Add_To_Attr('DELIVERY_DATE', sysdate, attr_);  
+   Client_SYS.Add_To_Attr('CURRENCY', Company_API.GET_CURRENCY_CODE(get_company_), attr_);
+   Client_SYS.Add_To_Attr('CURR_RATE', Currency_Code_API.Get_Conv_Factor(get_company_,Company_API.GET_CURRENCY_CODE(get_company_)), attr_);
    Client_SYS.Add_To_Attr('TAX_CURR_RATE',1, attr_);
-   Client_SYS.Add_To_Attr('INVOICE_ADDRESS_ID','CADD', attr_);
-   Client_SYS.Add_To_Attr('DELIVERY_ADDRESS_ID','CADD', attr_);
+   Client_SYS.Add_To_Attr('INVOICE_ADDRESS_ID',get_addr_, attr_);
+   Client_SYS.Add_To_Attr('DELIVERY_ADDRESS_ID',get_addr_, attr_);
    Client_SYS.Add_To_Attr('USE_PROJ_ADDRESS_FOR_TAX_DB','FALSE', attr_);
-   Client_SYS.Add_To_Attr('USE_DELIVERY_INV_ADDRESS_DB','FALSE', attr_);
-   Client_SYS.Add_To_Attr('PAYER_IDENTITY','RANPA DEALER-KANDY', attr_);
-   Client_SYS.Add_To_Attr('SUPPLY_COUNTRY_DB','LK', attr_);
+   Client_SYS.Add_To_Attr('USE_DELIVERY_INV_ADDRESS_DB','FALSE', attr_);  
+   Client_SYS.Add_To_Attr('SUPPLY_COUNTRY_DB',Customer_Info_API.Get_Country_Db(customer_), attr_);
    Client_SYS.Add_To_Attr('PAY_TERM_ID',0, attr_);
    Client_SYS.Add_To_Attr('TAX_LIABILITY','TAX', attr_);
    Instant_Invoice_API.New__(info_, objid_, objversion_, attr_, 'DO');
