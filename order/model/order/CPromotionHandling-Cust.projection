@@ -37,7 +37,7 @@ entity CDiscount {
    reference InventoryPartRef(FreeSales) to  InventoryPart(PartNo) {
       label = "Free Issue Item";
    }
-   
+
 }
 
 ------------------------------- ENUMERATIONS --------------------------------

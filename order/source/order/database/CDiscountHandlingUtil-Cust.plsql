@@ -121,7 +121,7 @@ PROCEDURE Val_Disc_Apply IS
    
 BEGIN
    FOR rec_ IN get_val_disc_rec LOOP
-      IF rec_.disc_type_db = 'VAL_DIS' AND rec_.ach_amt IS NULL THEN
+      IF rec_.disc_type_db = 'VAL_DIS' AND rec_.state = 'A' AND (SYSDATE BETWEEN rec_.from_date AND rec_.to_date) AND rec_.ach_amt IS NULL THEN
          OPEN get_invoice_amt(rec_.contract,rec_.cus_id,rec_.sales_part);
          FETCH get_invoice_amt INTO get_invoice_amt_;
          CLOSE get_invoice_amt;

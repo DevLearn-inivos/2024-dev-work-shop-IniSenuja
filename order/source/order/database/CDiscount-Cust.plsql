@@ -31,14 +31,14 @@ IS
    
 BEGIN
    
-   IF newrec_.disc_type = 'FREE_ISSUE' THEN  
-      newrec_.disc_desc := 'Free Issue for Buy Quantity';
-   ELSIF newrec_.disc_type = 'VAL_DIS' THEN
-      newrec_.disc_desc := 'Value discount for Delivered Customer Orders';
-   ELSIF newrec_.disc_type = 'SHRT_EXP' THEN
-       newrec_.disc_desc := 'Short Expiry Discount';
-   ELSE  newrec_.disc_desc := 'Free Issue for Buy Quantity';     
-   END IF;
+--   IF newrec_.disc_type = 'FREE_ISSUE' THEN  
+--      newrec_.disc_desc := 'Free Issue for Buy Quantity';
+--   ELSIF newrec_.disc_type = 'VAL_DIS' THEN
+--      newrec_.disc_desc := 'Value discount for Delivered Customer Orders';
+--   ELSIF newrec_.disc_type = 'SHRT_EXP' THEN
+--       newrec_.disc_desc := 'Short Expiry Discount';
+--   ELSE  newrec_.disc_desc := 'Free Issue for Buy Quantity';     
+--   END IF;
    
    FOR record_ IN get_records LOOP
 --      Error_Sys.Record_General('ERROR',newrec_.sales_grp||newrec_.sales_grp);

@@ -48,7 +48,19 @@ list CDiscountList for CDiscount {
    field DiscType {
       validate command {
          execute {
-            set ContractRef = null;
+            if [DiscType = "FreeIssue"] {
+               set DiscDesc = "Free Issue for Buy Quantity";
+            }
+            if [DiscType = "ValDis"] {
+               set DiscDesc = "Value discount for Delivered Customer Orders";
+            }
+            if [DiscType = "ShrtExp"] {
+               set DiscDesc = "Short Expiry Discount";
+            }
+            if [DiscType = "PkgFreeIss"] {
+               set DiscDesc = "Free Issue for Package Parts";
+            }
+
             set CatalogRef = null;
             set LotNoRef = null;
             set CatalogGrpRef = null;
